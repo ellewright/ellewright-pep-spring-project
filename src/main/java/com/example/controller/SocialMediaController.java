@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,5 +42,11 @@ public class SocialMediaController {
     @GetMapping("messages/{messageId}")
     public @ResponseBody ResponseEntity<Message> findMessage(@PathVariable int messageId) {
         return new ResponseEntity<>(messageService.findMessage(messageId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("messages/{messageId}")
+    public @ResponseBody ResponseEntity<Integer> deleteMessage(@PathVariable int messageId) {
+        Integer result = messageService.deleteMessage(messageId);
+        return ResponseEntity.ok().body(result != 1 ? null : result);
     }
 }

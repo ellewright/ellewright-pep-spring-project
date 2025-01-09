@@ -38,9 +38,13 @@ public class MessageService {
         return null;
     }
 
-    public void deleteMessage(int messageId) {
-        List<Message> messageList = (List<Message>) messageRepository.findAll();
-        messageList.removeIf(message -> message.getMessageId().equals(messageId));
+    public int deleteMessage(int messageId) {
+        if (messageRepository.existsById(messageId)) {
+            messageRepository.deleteById(messageId);
+            return 1;
+        }
+
+        return 0;
     }
 
     public void updateMessage(Message updatedMessage) throws ResourceNotFoundException {
