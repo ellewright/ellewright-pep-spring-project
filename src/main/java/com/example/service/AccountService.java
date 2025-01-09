@@ -33,4 +33,21 @@ public class AccountService {
 
         return null;
     }
+
+    public Account login(Account accountToLogIn) {
+        List<Account> allAccounts = (List<Account>) accountRepository.findAll();
+
+        for (Account account : allAccounts) {
+            if (accountToLogIn.getUsername().equals(account.getUsername()) && accountToLogIn.getPassword().equals(account.getPassword())) {
+                Optional<Account> optionalAccount = accountRepository.findById(account.getAccountId());
+
+                if (optionalAccount.isPresent()) {
+                    Account loggedInAccount = optionalAccount.get();
+                    return loggedInAccount;
+                }
+            }
+        }
+
+        return null;
+    }
 }

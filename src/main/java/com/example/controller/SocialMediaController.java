@@ -48,6 +48,16 @@ public class SocialMediaController {
         return ResponseEntity.ok().body(registeredAccount);
     }
 
+    @PostMapping("login")
+    public @ResponseBody ResponseEntity<Account> loginAccount(@RequestBody Account account) {
+        Account loggedInAccount = accountService.login(account);
+        if (loggedInAccount == null) {
+            return ResponseEntity.status(401).body(null);
+        }
+
+        return ResponseEntity.ok().body(loggedInAccount);
+    }
+
     @PostMapping("messages")
     public @ResponseBody ResponseEntity<Message> createMessage(@RequestBody Message message) {
         Message addedMessage = messageService.addNewMessage(message);
