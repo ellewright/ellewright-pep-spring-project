@@ -8,6 +8,7 @@ import com.example.entity.Message;
 import com.example.exception.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -50,11 +51,11 @@ public class MessageService {
         return 0;
     }
 
-    public void updateMessage(Message updatedMessage) throws ResourceNotFoundException {
-        List<Message> messageList = (List<Message>) messageRepository.findAll();
-        if (messageList.removeIf(message -> message.getMessageId().equals(updatedMessage.getMessageId()))) {
-            messageList.add(updatedMessage);
-            return;
+    public Message updateMessage(Message updatedMessage) {
+        if (!updatedMessage.getMessageText().equals("") && updatedMessage.getMessageText().length() < 256) {
+            return messageRepository.save(updatedMessage);
         }
+
+        return null;
     }
 }

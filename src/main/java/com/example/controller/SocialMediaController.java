@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,5 +61,16 @@ public class SocialMediaController {
     public @ResponseBody ResponseEntity<Integer> deleteMessage(@PathVariable int messageId) {
         Integer result = messageService.deleteMessage(messageId);
         return ResponseEntity.ok().body(result != 1 ? null : result);
+    }
+
+    @PatchMapping("messages/{messageId}")
+    public @ResponseBody ResponseEntity<Integer> updateMessage(@PathVariable int messageId, @RequestBody Message newMessage) {
+        Message updatedMessage = messageService.updateMessage(newMessage);
+        
+        if (updatedMessage == null) {
+            return ResponseEntity.status(400).body(null);
+        }
+
+        return ResponseEntity.ok().body(1);
     }
 }
