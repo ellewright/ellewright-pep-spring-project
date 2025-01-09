@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.repository.MessageRepository;
 import com.example.entity.Message;
+import com.example.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -17,7 +18,36 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    public void addNewMessage(Message newMessage) {
+        List<Message> messageList = (List<Message>) messageRepository.findAll();
+        messageList.add(newMessage);
+    }
+
     public List<Message> getAllMessages() {
         return (List<Message>) messageRepository.findAll();
+    }
+
+    public Message findMessage(int messageId) throws ResourceNotFoundException {
+        List<Message> messageList = (List<Message>) messageRepository.findAll();
+        for (Message message : messageList) {
+            if (message.getMessageId().equals(messageId)) {
+                return message;
+            }
+        }
+
+        throw new ResourceNotFoundException("Message with ID: " + messageId + " was not found. Please try again.");
+    }
+
+    public void deleteMessage(int messageId) {
+        List<Message> messageList = (List<Message>) messageRepository.findAll();
+        messageList.removeIf(message -> message.getMessageId().equals(messageId));
+    }
+
+    public void updateMessage(Message updatedMessage) throws ResourceNotFoundException {
+        List<Message> messageList = (List<Message>) messageRepository.findAll();
+        if (messageList.removeIf(message -> message.getMessageId().equals(updatedMessage.getMessageId()))) {
+            messageList.add(updatedMessage);
+            return;
+        }
     }
 }
