@@ -27,7 +27,7 @@ public class MessageService {
         return (List<Message>) messageRepository.findAll();
     }
 
-    public Message findMessage(int messageId) throws ResourceNotFoundException {
+    public Message findMessage(int messageId) {
         List<Message> messageList = (List<Message>) messageRepository.findAll();
         for (Message message : messageList) {
             if (message.getMessageId().equals(messageId)) {
@@ -35,7 +35,7 @@ public class MessageService {
             }
         }
 
-        throw new ResourceNotFoundException("Message with ID: " + messageId + " was not found. Please try again.");
+        return null;
     }
 
     public void deleteMessage(int messageId) {
