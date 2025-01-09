@@ -18,9 +18,12 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void addNewMessage(Message newMessage) {
-        List<Message> messageList = (List<Message>) messageRepository.findAll();
-        messageList.add(newMessage);
+    public Message addNewMessage(Message newMessage) {
+        if (!newMessage.getMessageText().equals("") && newMessage.getMessageText().length() < 256) {
+            return messageRepository.save(newMessage);
+        }
+
+        return null;
     }
 
     public List<Message> getAllMessages() {
