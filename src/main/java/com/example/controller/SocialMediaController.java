@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
@@ -35,6 +36,16 @@ public class SocialMediaController {
     public SocialMediaController(AccountService accountService, MessageService messageService) {
         this.accountService = accountService;
         this.messageService = messageService;
+    }
+
+    @PostMapping("register")
+    public @ResponseBody ResponseEntity<Account> registerAccount(@RequestBody Account account) {
+        Account registeredAccount = accountService.register(account);
+        if (registeredAccount == null) {
+            return ResponseEntity.status(409).body(null);
+        }
+
+        return ResponseEntity.ok().body(registeredAccount);
     }
 
     @PostMapping("messages")

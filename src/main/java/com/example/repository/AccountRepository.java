@@ -7,4 +7,5 @@ import com.example.entity.Account;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
+    
 }
