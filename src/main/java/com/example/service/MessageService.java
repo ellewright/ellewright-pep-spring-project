@@ -20,8 +20,14 @@ public class MessageService {
     }
 
     public Message addNewMessage(Message newMessage) {
-        if (!newMessage.getMessageText().equals("") && newMessage.getMessageText().length() < 256) {
-            return messageRepository.save(newMessage);
+        List<Message> messageList = (List<Message>) messageRepository.findAll();
+
+        for (Message message : messageList) {
+            if (newMessage.getPostedBy().equals(message.getPostedBy())) {
+                if (!newMessage.getMessageText().equals("") && newMessage.getMessageText().length() < 256) {
+                    return messageRepository.save(newMessage);
+                }
+            }
         }
 
         return null;
