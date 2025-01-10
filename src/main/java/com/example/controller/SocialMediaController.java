@@ -88,7 +88,7 @@ public class SocialMediaController {
     public @ResponseBody ResponseEntity<Integer> updateMessage(@PathVariable int messageId, @RequestBody Message newMessage) {
         Message updatedMessage = messageService.updateMessage(newMessage);
         
-        if (updatedMessage == null) {
+        if (updatedMessage == null || messageService.findMessage(messageId) == null) {
             return ResponseEntity.status(400).body(null);
         }
 
