@@ -94,4 +94,9 @@ public class SocialMediaController {
 
         return ResponseEntity.ok().body(1);
     }
+
+    @GetMapping("accounts/{accountId}/messages")
+    public @ResponseBody List<Message> findMessagesByPostedBy(@PathVariable int accountId) {
+        return messageService.getMessagesByPostedBy(accountId);
+    }
 }

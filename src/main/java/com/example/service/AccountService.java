@@ -7,15 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
 import com.example.repository.AccountRepository;
+import com.example.repository.MessageRepository;
 
 @Service
 public class AccountService {
     private AccountRepository accountRepository;
-    private MessageService messageService;
+    private MessageRepository messageRepository;
 
-    public AccountService(AccountRepository accountRepository, MessageService messageService) {
+    public AccountService(AccountRepository accountRepository, MessageRepository messageRepository) {
         this.accountRepository = accountRepository;
-        this.messageService = messageService;
+        this.messageRepository = messageRepository;
     }
 
     public Account register(Account newAccount) {
